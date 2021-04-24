@@ -10,20 +10,29 @@ POST {{BASE_URL}}/api/user
 Content-Type: application/json
 
 {
-    "name" : "hasan tunahan2123",
-    "username" : "14215",
-    "email" : "ae135t",
-    "password" :"4eat43246asd"
+    "name" : "haso",
+    "username" : "cry",
+    "email" : "hasantunahan12345@gmail.com",
+    "password" :"pes"
 }
 
 ###
 DELETE {{BASE_URL}}/api/user/6083f99a5e0b04125035d5
 
 ###
-PATCH {{BASE_URL}}/api/user/6083facd18d38053b0ad0cab
+PATCH {{BASE_URL}}/api/user/6083f9dc5e0b04125035d534
 Content-Type: application/json
 
 {
-    "username" : "1551"
+    "password"  :"awfawf"
 }
 
+
+###
+POST {{BASE_URL}}/api/user/login
+Content-Type: application/json
+
+{
+    "email" : "hasantunahan12345@gmail.com",
+    "password" :"pe2s"
+}
