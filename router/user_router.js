@@ -1,90 +1,26 @@
 const router = require("express").Router();
-const User = require("../models/userModel");
-const createError = require("http-errors");
-const bcrypt = require("bcrypt");
-const auth = require('../middleware/authtMiddleware');
+const auth = require("../middleware/authtMiddleware");
+const adminMiddleware = require("../middleware/adminMiddleware");
+const userController = require("../controller/userController");
 
+router.get("/", [auth, adminMiddleware], userController.allUserList);
 
-router.get("/", async (req, res) => {
-  const allUser = await User.find({});
-  res.json(allUser);
-});
+router.get("/me", auth, userController.loginUserInformation);
 
-router.get("/me", auth, (req, res, next) => {
-  
-});
+router.patch("/me", auth, userController.updateLoginUser);
 
-router.post("/", async (req, res, next) => {
-  try {
-    const addUser = new User(req.body);
-    addUser.password = await bcrypt.hash(addUser.password, 10);
-    const { error, value } = addUser.joiValidation(req.body);
+router.post("/", userController.addNewUser);
 
-    if (error) {
-      next(createError(400, error));
-    } else {
-      const result = await addUser.save();
-      res.status(200).json(result);
-    }
-  } catch (e) {
-    next(createError(400, e));
-  }
-});
+router.patch("/:id", userController.updateUserWithID);
 
-router.patch("/:id", async (req, res, next) => {
-  const { error, value } = User.joiValidationForUpdate(req.body);
-  const id = req.params.id;
+router.delete("/:id", userController.deleteUserWithID);
 
-  if (req.body.hasOwnProperty("password")) {
-    req.body.password = await bcrypt.hash(req.body.password, 10);
-  }
+router.delete(
+  "/deleteAll",
+  [auth, adminMiddleware],
+  userController.deleteAllUser
+);
 
-  if (error) {
-    next(createError(400, error));
-  } else {
-    try {
-      const result = await User.findByIdAndUpdate(id, req.body, {
-        new: true,
-        runValidators: true,
-      });
-      if (result) {
-        return res.json(result);
-      } else {
-        throw createError(404, `${req.params.id} user not found`);
-      }
-    } catch (e) {
-      next(createError(400, e));
-    }
-  }
-});
-
-router.delete("/:id", async (req, res, next) => {
-  const result = await User.findByIdAndDelete({ _id: req.params.id });
-  try {
-    if (result) {
-      return res.json(`${req.params.id} users deleted successfully`);
-    } else {
-      throw createError(404, `${req.params.id} user not found`);
-    }
-  } catch (e) {
-    next(createError(400, e));
-  }
-});
-
-router.post("/login", async (req, res, next) => {
-  try {
-    const user = await User.login(req.body.email, req.body.password);
-
-    const token = await user.generateToken();
-
-
-    res.json({
-      user,
-      token
-    });
-  } catch (e) {
-    next(e);
-  }
-});
+router.post("/login", userController.login);
 
 module.exports = router;

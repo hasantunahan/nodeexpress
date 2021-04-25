@@ -4,21 +4,27 @@ GET {{BASE_URL}}
 
 ###
 GET {{BASE_URL}}/api/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDg1MmI0YzFhMDcyZTE5MDg5NzRlM2EiLCJpYXQiOjE2MTkzNDI3ODksImV4cCI6MTYxOTM0OTk4OX0.8J04Pq5yTmtS9phsyQ7qaYejFjNvETwNE2N5OV1nlt8
 
 ###
 POST {{BASE_URL}}/api/user
 Content-Type: application/json
 
 {
-    "name" : "haso",
-    "username" : "cry",
-    "email" : "hasantunahan12345@gmail.com",
+    "name" : "mem1123o",
+    "username" : "cq123134r213y",
+    "email" : "hasantun134123ahan34123@gmail.com",
     "password" :"pes"
 }
 
 ###
-DELETE {{BASE_URL}}/api/user/6083f99a5e0b04125035d5
+DELETE {{BASE_URL}}/api/user/60852c4224e90a05c4ff6c43
 
+
+###
+DELETE {{BASE_URL}}/api/user/deleteAll
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDg1MmI0YzFhMDcyZTE5MDg5NzRlM2EiLCJpYXQiOjE2MTkzNDA2MDEsImV4cCI6MTYxOTM0NzgwMX0.0SQOzS2y8lctTkYeGur_qMX4TPo-P6F3xZLFFwLilEY
 ###
 PATCH {{BASE_URL}}/api/user/6083f9dc5e0b04125035d534
 Content-Type: application/json
@@ -33,6 +39,16 @@ POST {{BASE_URL}}/api/user/login
 Content-Type: application/json
 
 {
-    "email" : "hasantunahan12345@gmail.com",
+    "email" : "hasantunahan123@gmail.com",
     "password" :"pes"
+}
+
+
+###
+PATCH {{BASE_URL}}/api/user/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDg1Mjc4NTY0MzJkYzRiNGM1YjlmMWYiLCJpYXQiOjE2MTkzMzkxNjQsImV4cCI6MTYxOTM0NjM2NH0.0pN9P90AJR_y-zKcsuKNBbX56WenDDioc23ZnDAa0Cc
+
+{
+    "name" : "tunahan"
 }

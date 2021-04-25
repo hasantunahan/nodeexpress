@@ -35,6 +35,10 @@ const userSchema = new Schema(
       trim: true,
       required: true,
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
   { collection: "users", timestamps: true }
 );
@@ -88,7 +92,9 @@ userSchema.statics.login = async function (email, password) {
 
 userSchema.methods.generateToken = function () {
   const loginUser = this;
-  const token  = jwt.sign({_id : loginUser._id, email : loginUser.email},'secretkey',{expiresIn :'2h'})
+  const token = jwt.sign({ _id: loginUser._id }, "secretkey", {
+    expiresIn: "2h",
+  });
   return token;
 };
 
