@@ -4,6 +4,8 @@ const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
 
 const Joi = require("joi");
+const jwt = require("jsonwebtoken");
+
 const userSchema = new Schema(
   {
     name: {
@@ -82,6 +84,12 @@ userSchema.statics.login = async function (email, password) {
   }
 
   return user;
+};
+
+userSchema.methods.generateToken = function () {
+  const loginUser = this;
+  const token  = jwt.sign({_id : loginUser._id, email : loginUser.email},'secretkey',{expiresIn :'2h'})
+  return token;
 };
 
 const User = mongoose.model("User", userSchema);

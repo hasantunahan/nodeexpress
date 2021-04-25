@@ -2,18 +2,16 @@ const router = require("express").Router();
 const User = require("../models/userModel");
 const createError = require("http-errors");
 const bcrypt = require("bcrypt");
+const auth = require('../middleware/authtMiddleware');
+
 
 router.get("/", async (req, res) => {
   const allUser = await User.find({});
   res.json(allUser);
 });
 
-router.get("/:id", async (req, res, next) => {
-  try {
-    const findUser = await User.findOne({});
-  } catch (e) {
-    next(createError(400, e));
-  }
+router.get("/me", auth, (req, res, next) => {
+  
 });
 
 router.post("/", async (req, res, next) => {
@@ -76,7 +74,14 @@ router.delete("/:id", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
   try {
     const user = await User.login(req.body.email, req.body.password);
-    res.json(user);
+
+    const token = await user.generateToken();
+
+
+    res.json({
+      user,
+      token
+    });
   } catch (e) {
     next(e);
   }
